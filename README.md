@@ -2,7 +2,8 @@
 
 This is the source code accompanying the **managing Data with Confluent Cloud** course.
 
-It is organized in subfolders, one per lab.
-. lab-accessing-ccl
-. lab-stream-lineage
-. lab-schema-linking
+It is organized in subfolders:
+
+  1. lab-accessing-ccl
+  2. lab-stream-lineage
+  3. lab-schema-linking
