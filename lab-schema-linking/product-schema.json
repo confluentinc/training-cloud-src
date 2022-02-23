@@ -1,0 +1,24 @@
+{
+  "name": "product",
+  "namespace": "io.confluent.training",
+  "type": "record",
+  "doc": "Product schema for Schema Linking lab.",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "description",
+      "type": "string"
+    },
+    {
+      "name": "price",
+      "type": "double"
+    }
+  ]
+}

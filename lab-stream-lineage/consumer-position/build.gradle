@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+mainClassName = 'clients.ConsumerGroup'
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "https://packages.confluent.io/maven/" }
+}
+
+dependencies {
+    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '3.1.0'
+    implementation group: 'io.confluent', name: 'monitoring-interceptors', version: '7.0.1'
+    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.35'
+}

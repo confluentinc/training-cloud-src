@@ -1,0 +1,33 @@
+{
+  "schema":
+    "{
+      \"name\": \"transaction\",
+      \"namespace\": \"io.confluent.training\",
+      \"type\": \"record\",
+      \"doc\": \"Transaction schema for Schema Linking lab.\",
+      \"fields\":
+        [
+          {
+            \"name\": \"transaction_id\",
+            \"type\": \"long\"
+          },
+          {
+            \"name\": \"card_id\",
+            \"type\": \"long\"
+          },
+          {
+            \"name\": \"user_id\",
+            \"type\": \"string\"
+          },
+          {
+            \"name\": \"purchase_id\",
+            \"type\": \"long\"
+          },
+          {
+            \"name\": \"store_id\",
+            \"type\": \"int\"
+          }
+        ]
+    }",
+  "schemaType": "AVRO"
+}
