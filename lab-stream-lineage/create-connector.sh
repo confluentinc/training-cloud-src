@@ -21,7 +21,7 @@ cat <<EOT >> ./connector-config.json
 EOT
 fi
 
-CONNECTOR_ID=$(confluent connect create --config connector-config.json | awk '{print $4}')
+CONNECTOR_ID=$(confluent connect create --config connector-config.json | cut -d '"' -f2)
 
 cat <<EOT >> /home/training/.bashrc
 export CONNECTOR_ID=$CONNECTOR_ID
