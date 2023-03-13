@@ -1,0 +1,12 @@
+{
+    "name" : "UserOrdersConnector",
+    "connector.class": "DatagenSource",
+    "kafka.auth.mode": "KAFKA_API_KEY",
+    "kafka.api.key": "XMVPTUED3CVI3FPS",
+    "kafka.api.secret" : "pj97agC9bKxGOoN2Tc0FHW/XtVSZ7Eaz3qTASTHJlzJVkQyxF74tFkHWFOGe2cou",
+    "kafka.topic" : "orders",
+    "output.data.format" : "JSON",
+    "json.output.decimal.format": "NUMERIC",
+    "quickstart" : "ORDERS",
+    "tasks.max" : "1"
+}

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if grep "CONNECTOR_ID" /home/training/.bashrc >/dev/null; then
+  echo "Already done!"
+  exit 0
+fi
+
 echo "---- Creating connector ----"
 echo " "
 
@@ -21,7 +26,7 @@ cat <<EOT >> ./connector-config.json
 EOT
 fi
 
-CONNECTOR_ID=$(confluent connect create --config connector-config.json | cut -d '"' -f2)
+CONNECTOR_ID=$(confluent connect cluster create --config-file connector-config.json | grep -o 'lcc[^ ]\+')
 
 cat <<EOT >> /home/training/.bashrc
 export CONNECTOR_ID=$CONNECTOR_ID
