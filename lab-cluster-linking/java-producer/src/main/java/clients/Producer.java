@@ -1,8 +1,12 @@
+Producer
+
 package clients;
 
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,12 +36,8 @@ public class Producer {
 
     // Configure the location of the bootstrap server, default serializers,
     // Confluent interceptors
-    final Properties settings = new Properties();
+    final Properties settings = loadConfig(args[0]);
     settings.put(ProducerConfig.CLIENT_ID_CONFIG, courierId);
-    settings.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, System.getenv("BOOTSTRAP_SERVERS"));
-    settings.put(AdminClientConfig.SECURITY_PROTOCOL_CONFIG, "SASL_SSL");
-    settings.put(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.plain.PlainLoginModule required username='" + System.getenv("API_KEY") + "' password='" + System.getenv("API_SECRET") + "';");
-    settings.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
     settings.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
     settings.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
@@ -73,5 +73,16 @@ public class Producer {
       pos = pos + 1;
       Thread.sleep(1000);
     }
+  }
+
+  public static Properties loadConfig(final String configFile) throws IOException {
+    if (!Files.exists(Paths.get(configFile))) {
+      throw new IOException(configFile + " not found.");
+    }
+    final Properties cfg = new Properties();
+    try (InputStream inputStream = new FileInputStream(configFile)) {
+      cfg.load(inputStream);
+    }
+    return cfg;
   }
 }
