@@ -1,5 +1,3 @@
-Producer
-
 package clients;
 
 import java.io.BufferedWriter;
