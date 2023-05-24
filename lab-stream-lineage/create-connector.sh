@@ -8,8 +8,10 @@ fi
 echo "---- Creating connector ----"
 echo " "
 
-if [ ! -f ./connector-config.json ]
-then
+if [ -f ./connector-config.json ]; then
+  rm connector-config.json
+fi
+
 cat <<EOT >> ./connector-config.json
 {
     "name" : "UserOrdersConnector",
@@ -24,7 +26,7 @@ cat <<EOT >> ./connector-config.json
     "tasks.max" : "1"
 }
 EOT
-fi
+
 
 CONNECTOR_ID=$(confluent connect cluster create --config-file connector-config.json | grep -o 'lcc[^ ]\+')
 
