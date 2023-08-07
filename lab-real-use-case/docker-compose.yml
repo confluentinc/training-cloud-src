@@ -1,0 +1,84 @@
+---
+version: '2'
+services:
+  vehicle1:
+    image: cnfltraining/ccl-vehicle-producer-avro:1.0
+    container_name: vehicle1
+    volumes:
+      - ./producer.config:/producer.config
+    environment:
+      VEHICLE_FILE: vehicle-1
+    command: "bash -c 'java -classpath \"lib/*\" clients.Producer'"
+
+  vehicle2:
+    image: cnfltraining/ccl-vehicle-producer-avro:1.0
+    container_name: vehicle2
+    volumes:
+      - ./producer.config:/producer.config
+    environment:
+      VEHICLE_FILE: vehicle-2
+    command: "bash -c 'java -classpath \"lib/*\" clients.Producer'"
+
+  vehicle3:
+    image: cnfltraining/ccl-vehicle-producer-avro:1.0
+    container_name: vehicle3
+    volumes:
+      - ./producer.config:/producer.config
+    environment:
+      VEHICLE_FILE: vehicle-3
+    command: "bash -c 'java -classpath \"lib/*\" clients.Producer'"
+
+  vehicle4:
+    image: cnfltraining/ccl-vehicle-producer-avro:1.0
+    container_name: vehicle4
+    volumes:
+      - ./producer.config:/producer.config
+    environment:
+      VEHICLE_FILE: vehicle-4
+    command: "bash -c 'java -classpath \"lib/*\" clients.Producer'"
+
+  vehicle5:
+    image: cnfltraining/ccl-vehicle-producer-avro:1.0
+    container_name: vehicle5
+    volumes:
+      - ./producer.config:/producer.config
+    environment:
+      VEHICLE_FILE: vehicle-5
+    command: "bash -c 'java -classpath \"lib/*\" clients.Producer'"
+
+  vehicle6:
+    image: cnfltraining/ccl-vehicle-producer-avro:1.0
+    container_name: vehicle6
+    volumes:
+      - ./producer.config:/producer.config
+    environment:
+      VEHICLE_FILE: vehicle-6
+    command: "bash -c 'java -classpath \"lib/*\" clients.Producer'"
+
+  vehicle7:
+    image: cnfltraining/ccl-vehicle-producer-avro:1.0
+    container_name: vehicle7
+    volumes:
+      - ./producer.config:/producer.config
+    environment:
+      VEHICLE_FILE: vehicle-7
+    command: "bash -c 'java -classpath \"lib/*\" clients.Producer'"
+
+  vehicle8:
+    image: cnfltraining/ccl-vehicle-producer-avro:1.0
+    container_name: vehicle8
+    volumes:
+      - ./producer.config:/producer.config
+    environment:
+      VEHICLE_FILE: vehicle-8
+    command: "bash -c 'java -classpath \"lib/*\" clients.Producer'"
+
+  postgres:
+    image: postgres:11.2-alpine
+    restart: always
+    container_name: postgres
+    volumes:
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - 5432:5432
+

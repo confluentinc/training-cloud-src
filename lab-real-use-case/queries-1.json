@@ -1,0 +1,33 @@
+{
+  "ksql": "CREATE STREAM vehicle_positions_stream (
+                  vehiclekey VARCHAR KEY
+              ) WITH (
+                  KAFKA_TOPIC = 'vehicle-positions',
+                  VALUE_FORMAT = 'AVRO'
+              );
+
+          CREATE STREAM vehicle_sensors_stream (
+                  vehiclekey VARCHAR KEY
+              ) WITH (
+                  KAFKA_TOPIC = 'vehicle-sensors',
+                  VALUE_FORMAT = 'AVRO'
+              );
+
+          CREATE TABLE vehicle_driverinfo_table (
+                  driverkey VARCHAR PRIMARY KEY
+              ) WITH (
+                  KAFKA_TOPIC = 'vehicle-driverinfo', 
+                  VALUE_FORMAT = 'AVRO'
+              );
+
+          CREATE TABLE vehicle_vehicleinfo_table (
+                  vehiclekey VARCHAR PRIMARY KEY
+              ) WITH (
+                  KAFKA_TOPIC = 'vehicle-vehicleinfo', 
+                  VALUE_FORMAT = 'AVRO'
+              );
+          ",        
+  "streamsProperties": {
+      "ksql.streams.auto.offset.reset": "earliest"
+  }
+}

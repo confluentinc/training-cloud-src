@@ -1,0 +1,68 @@
+{
+    "ksql": "CREATE TABLE vehicle_info_driver_id_table (
+                    vehiclekey VARCHAR PRIMARY KEY
+                ) WITH (
+                    KAFKA_TOPIC = 'vehicle-info-driver-id', 
+                    VALUE_FORMAT = 'AVRO'
+                );
+
+            CREATE TABLE vehicle_info_driver_info_table WITH (
+                    KAFKA_TOPIC = 'vehicle-info-driver-info'
+                ) AS
+                SELECT
+                    p.vehiclekey,
+                    p.vehicle_id,
+                    p.make,
+                    p.model,
+                    p.plate,
+                    p.driver_id,
+                    d.firstname,
+                    d.lastname,
+                    p.timestamp
+                FROM vehicle_info_driver_id_table p
+                    JOIN vehicle_driverinfo_table d ON p.driver_id = d.driverkey
+                EMIT CHANGES;
+
+            CREATE TABLE vehicle_driver_speed_exceeded_count WITH (
+                    KAFKA_TOPIC = 'vehicle-driver-speed-exceeded-count'
+                ) AS
+                SELECT
+                    s.driver_id,
+                    d.firstname,
+                    d.lastname,
+                    s.count
+                FROM vehicle_speed_exceeded_count s
+                    JOIN vehicle_driverinfo_table d ON s.driver_id = d.driverkey
+                EMIT CHANGES;
+                
+            CREATE STREAM vehicle_all_data_stream WITH (
+                    KAFKA_TOPIC = 'vehicle-all-data'
+                ) AS
+                SELECT
+                    p.vehiclekey as vehiclekey,
+                    p.vehicle_id,
+                    p.driver_id,
+                    p.latitude,
+                    p.longitude,
+                    p.speed,
+                    p.acceleration,
+                    p.odometer,
+                    p.engine_temperature,
+                    p.average_rpm,
+                    p.pressure_tyre_1,
+                    p.pressure_tyre_2,
+                    p.pressure_tyre_3,
+                    p.pressure_tyre_4,
+                    v.make,
+                    v.model,
+                    v.plate,
+                    v.regdate as registration_date,
+                    p.timestamp as timestamp
+                FROM vehicle_positions_sensors_stream p
+                    JOIN vehicle_vehicleinfo_table v ON p.vehiclekey = v.vehiclekey
+                EMIT CHANGES;
+            ",        
+    "streamsProperties": {
+        "ksql.streams.auto.offset.reset": "earliest"
+    }
+}

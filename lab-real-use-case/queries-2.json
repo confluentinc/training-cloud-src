@@ -1,0 +1,55 @@
+{
+    "ksql": "CREATE STREAM vehicle_info_driver_id_stream WITH (
+                    KAFKA_TOPIC = 'vehicle-info-driver-id'
+                ) AS
+                SELECT
+                    p.vehiclekey,
+                    p.vehicle_id,
+                    v.make,
+                    v.model,
+                    v.plate,
+                    p.driver_id,
+                    p.timestamp
+                FROM vehicle_positions_stream p
+                    JOIN vehicle_vehicleinfo_table v ON p.vehiclekey = v.vehiclekey
+                EMIT CHANGES;
+
+            CREATE TABLE vehicle_speed_exceeded_count WITH (
+                    KAFKA_TOPIC = 'vehicle-speed-exceeded-count'
+                ) AS
+                SELECT
+                    driver_id,
+                    COUNT() AS count
+                FROM vehicle_positions_stream
+                    WHERE speed > 22.22
+                    GROUP BY driver_id
+                EMIT CHANGES;
+                
+            CREATE STREAM vehicle_positions_sensors_stream WITH (
+                    KAFKA_TOPIC = 'vehicle-positions-sensors'
+                ) AS
+                SELECT
+                    p.vehiclekey as vehiclekey,
+                    p.vehicle_id as vehicle_id,
+                    p.driver_id,
+                    p.latitude,
+                    p.longitude,
+                    p.speed,
+                    p.acceleration,
+                    p.odometer,
+                    s.engine_temperature,
+                    s.average_rpm,
+                    s.pressure_tyre_1,
+                    s.pressure_tyre_2,
+                    s.pressure_tyre_3,
+                    s.pressure_tyre_4,
+                    p.timestamp as timestamp
+                FROM vehicle_positions_stream p
+                    JOIN vehicle_sensors_stream s WITHIN 5 SECONDS GRACE PERIOD 5 SECONDS ON p.vehiclekey = s.vehiclekey
+                    WHERE p.timestamp = s.timestamp
+                EMIT CHANGES;
+            ",        
+    "streamsProperties": {
+        "ksql.streams.auto.offset.reset": "earliest"
+    }
+}
