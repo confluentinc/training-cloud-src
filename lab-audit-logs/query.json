@@ -1,7 +1,7 @@
 {
     "aggregations": [
         {
-            "metric": "io.confluent.kafka.server/request_count"
+            "metric": "io.confluent.kafka.server/received_bytes"
         }
     ],
     "filter": {
@@ -9,11 +9,11 @@
         "op": "EQ",
         "value": "lkc-XXXXX"
     },
-    "granularity": "PT1H",
+    "granularity": "PT1M",
     "group_by": [
-        "metric.principal_id"
+        "metric.topic"
     ],
     "intervals": [
-        "2023-06-25T00:00:00Z/PT1H"
+        "2025-06-25T09:00:00Z/2025-06-25T12:00:00Z"
     ]
 }
