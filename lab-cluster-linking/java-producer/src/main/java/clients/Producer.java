@@ -47,7 +47,21 @@ public class Producer {
       producer.close();
     }));
 
-    int pos = Integer.parseInt(Files.readString(Paths.get("commits/commit-offset.csv")));
+    // Read the offset position, defaulting to 0 if file doesn't exist or is empty
+    int pos = 0;
+    try {
+      String offsetContent = Files.readString(Paths.get("commits/commit-offset.csv")).trim();
+      if (!offsetContent.isEmpty()) {
+        pos = Integer.parseInt(offsetContent);
+      }
+    } catch (IOException | NumberFormatException e) {
+      System.out.println("Warning: Could not read commit-offset.csv, starting from position 0");
+      // Ensure the commits directory exists
+      Files.createDirectories(Paths.get("commits"));
+      // Initialize the file with 0
+      Files.writeString(Paths.get("commits/commit-offset.csv"), "0");
+    }
+    
     final String[] rows = Files.readAllLines(Paths.get(COURIER_FILE_PREFIX + courierId + ".csv"),
       Charset.forName("UTF-8")).toArray(new String[0]);
 
