@@ -146,11 +146,12 @@ if command -v date &> /dev/null; then
     INTERVAL_START="${START_DATE}T${START_HOUR}:${START_MIN}:00Z"
     
     # Add 10 minutes for the end interval
-    END_MIN=$((START_MIN + 10))
-    END_HOUR=$START_HOUR
+    # Force decimal interpretation to avoid octal errors with leading zeros
+    END_MIN=$((10#$START_MIN + 10))
+    END_HOUR=$((10#$START_HOUR))
     if [ $END_MIN -ge 60 ]; then
         END_MIN=$((END_MIN - 60))
-        END_HOUR=$((START_HOUR + 1))
+        END_HOUR=$((10#$START_HOUR + 1))
     fi
     INTERVAL_END=$(printf "%sT%02d:%02d:00Z" "$START_DATE" "$END_HOUR" "$END_MIN")
 else
